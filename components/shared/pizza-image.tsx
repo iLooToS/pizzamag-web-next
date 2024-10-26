@@ -5,10 +5,10 @@ interface Props {
   className?: string;
   imageUrl: string;
   productName: string;
-  size: number;
+  size: 20 | 25 | 30;
 }
 
-export const ProductImage: React.FC<Props> = ({
+export const PizzaImage: React.FC<Props> = ({
   imageUrl,
   productName,
   size,
