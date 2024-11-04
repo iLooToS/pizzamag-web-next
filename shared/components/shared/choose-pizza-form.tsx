@@ -17,16 +17,19 @@ interface Props {
   name: string;
   ingredients: Ingredient[];
   items: ProductItem[];
-  onClickAddCart?: VoidFunction;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
   className?: string;
 }
 
+/**
+ * Форма выбора пиццы
+ */
 export const ChoosePizzaForm: React.FC<Props> = ({
   name,
   items,
   imageUrl,
   ingredients,
-  onClickAddCart,
+  onSubmit,
   className,
 }) => {
   const {
@@ -34,6 +37,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
     type,
     selectedIngredients,
     availableSizes,
+    currentItemId,
     setSize,
     setType,
     addIngredient,
@@ -48,8 +52,9 @@ export const ChoosePizzaForm: React.FC<Props> = ({
   );
 
   const handleClickAdd = () => {
-    onClickAddCart?.();
-    console.log({ size, type, ingredients: selectedIngredients });
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
   };
 
   return (
