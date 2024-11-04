@@ -56,7 +56,7 @@ export async function DELETE(
 
     const cartItem = await prisma.cartItem.findFirst({
       where: {
-        id: Number(params.id),
+        id,
       },
     });
 
@@ -64,11 +64,11 @@ export async function DELETE(
       return NextResponse.json({ error: "Cart item not found" });
     }
 
-    await prisma.cartItem.delete({ where: { id: Number(params.id) } });
+    await prisma.cartItem.delete({ where: { id } });
 
-	const updatedUserCart = await updateCartTotalAmount(token);
+    const updatedUserCart = await updateCartTotalAmount(token);
 
-	return NextResponse.json(updatedUserCart);
+    return NextResponse.json(updatedUserCart);
   } catch (error) {
     console.log("[CART_DELETE] Server error", error);
     return NextResponse.json(
