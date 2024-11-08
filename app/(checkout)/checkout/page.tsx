@@ -10,18 +10,19 @@ import {
   CheckoutSidebar,
   Container,
   Title,
-} from "@/shared/components/shared";
-import { useCart } from "@/shared/hooks";
+} from "@/shared/components";
 import {
-  orderFormSchema,
-  TCheckoutFormValues,
-} from "@/shared/components/shared/checkout/checkout-form-schema";
+  checkoutFormSchema,
+  CheckoutFormValues,
+} from "@/shared/constants/checkout-form-schema";
+import { useCart } from "@/shared/hooks";
 
 export default function CheckoutPage() {
-  const { totalAmount, items, updateItemQuantity, removeCartItem } = useCart();
+  const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
+    useCart();
 
-  const form = useForm<TCheckoutFormValues>({
-    resolver: zodResolver(orderFormSchema),
+  const form = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
       email: "",
       firstName: "",
@@ -32,7 +33,7 @@ export default function CheckoutPage() {
     },
   });
 
-  const onSubmit = (data: TCheckoutFormValues) => {
+  const onSubmit = (data: CheckoutFormValues) => {
     console.log(data);
   };
 
@@ -62,16 +63,21 @@ export default function CheckoutPage() {
                 onClickCountButton={onClickCountButton}
                 removeCartItem={removeCartItem}
                 items={items}
+				loading={loading}
               />
 
-              <CheckoutPersonalForm />
+              <CheckoutPersonalForm
+                className={loading ? "opacity-40 pointer-events-none" : ""}
+              />
 
-              <CheckoutAddresForm />
+              <CheckoutAddresForm
+                className={loading ? "opacity-40 pointer-events-none" : ""}
+              />
             </div>
 
             {/* Правая часть */}
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} />
+              <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
             </div>
           </div>
         </form>
