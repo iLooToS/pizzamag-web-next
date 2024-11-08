@@ -4,9 +4,7 @@ import { CheckoutItemDetails } from "./checkout-item-details";
 import { ArrowRight, Package, Percent, Truck } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { Button, Skeleton } from "../ui";
-
-const VAT = 15;
-const DELIVERY_PRICE = 250;
+import { DELIVERY_PRICE, VAT } from '@/shared/constants/checkout-price';
 
 interface Props {
   totalAmount: number;
@@ -82,6 +80,7 @@ export const CheckoutSidebar: React.FC<Props> = ({
       />
 
       <Button
+        loading={loading}
         type="submit"
         className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
       >

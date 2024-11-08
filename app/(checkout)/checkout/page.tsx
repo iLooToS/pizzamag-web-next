@@ -16,8 +16,12 @@ import {
   CheckoutFormValues,
 } from "@/shared/constants/checkout-form-schema";
 import { useCart } from "@/shared/hooks";
+import { createOrder } from "@/app/actions";
+import toast from "react-hot-toast";
+import React from "react";
 
 export default function CheckoutPage() {
+  const [submitting, setSubmitting] = React.useState(false);
   const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
     useCart();
 
@@ -33,8 +37,26 @@ export default function CheckoutPage() {
     },
   });
 
-  const onSubmit = (data: CheckoutFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: CheckoutFormValues) => {
+    try {
+      setSubmitting(true);
+	  
+      const url = await createOrder(data);
+
+      toast.error("Заказ успешно оформлен! 📝 Переход к оплате... ", {
+        icon: "✅",
+      });
+
+      if (url) {
+        location.href = url;
+      }
+    } catch (error) {
+      console.log(error);
+      setSubmitting(false);
+      toast.error("Не удалось оформить заказ", {
+        icon: "❌",
+      });
+    }
   };
 
   const onClickCountButton = (
@@ -63,7 +85,7 @@ export default function CheckoutPage() {
                 onClickCountButton={onClickCountButton}
                 removeCartItem={removeCartItem}
                 items={items}
-				loading={loading}
+                loading={loading}
               />
 
               <CheckoutPersonalForm
@@ -77,7 +99,10 @@ export default function CheckoutPage() {
 
             {/* Правая часть */}
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
+              <CheckoutSidebar
+                totalAmount={totalAmount}
+                loading={loading || submitting}
+              />
             </div>
           </div>
         </form>
