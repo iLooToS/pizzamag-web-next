@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/shared/components";
 import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 import { signIn } from "next-auth/react";
@@ -27,7 +29,7 @@ export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
         {type === "login" ? (
           <LoginForm onClose={handleClose} />
         ) : (
-          <RegisterForm />
+          <RegisterForm onClose={handleClose} />
         )}
 
         <hr />
