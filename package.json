@@ -11,6 +11,7 @@
     "prisma:generate": "prisma db generate",
     "prisma:studio": "prisma studio",
     "prisma:seed": "prisma db seed",
+    "postinstall": "prisma generate",
     "localtunnel": "lt --port 3000"
   },
   "prisma": {

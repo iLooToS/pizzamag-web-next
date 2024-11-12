@@ -25,6 +25,7 @@ export const Header: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const [openAuthModal, setOpenAuthModal] = React.useState(false);
+  
   const searchParams = useSearchParams();
 
   React.useEffect(() => {
